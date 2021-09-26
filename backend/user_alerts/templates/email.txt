@@ -1,0 +1,13 @@
+Your eBay alert based on your search phrase: ({{ search_phrase }})
+
+
+Item ID                 |             Title                       |      Value      |     Currency
+_________________________________________________________________________________________________________
+{%  if items %}
+{% for t in items %}
+
+{{ t.item_id }},        |           {{ t.title }}                 |   {{ t.value }} | {{ t.currency }}
+_________________________________________________________________________________________________________
+
+{% endfor %}
+{% endif %}

@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres
+  web:
+    restart: always
+    depends_on:
+      - "postgres"
+      - "redis"
+    command: ["postgres:5435", "--", "python", "app.py" ]
+  redis:
+    image: redis
+  celery:
+    restart: always
+    command: celery -A config.celery.app worker -l info
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+      - redis
+      - web
