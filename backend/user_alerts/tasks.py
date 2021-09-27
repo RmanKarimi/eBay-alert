@@ -33,6 +33,7 @@ class Alert:
 
     def send_email(self):
         self.insert_items()
+        print("\n _________period_____________  ", self.alerts.period, '\n')
         plaintext = get_template('email.txt')
         htmly = get_template('email.html')
 
@@ -47,7 +48,5 @@ class Alert:
         msg.send()
 
 
-# def start():
-#     scheduler = BackgroundScheduler(daemon = False)
-#     scheduler.add_job(send_invitations, 'cron', minute=30)
-#     scheduler.start()
+def test():
+    print('______________________________________')

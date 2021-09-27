@@ -12,6 +12,7 @@ django-environ = "*"
 redis = "*"
 celery = "*"
 cached-property = "*"
+django-celery-beat = "*"
 
 [dev-packages]
 

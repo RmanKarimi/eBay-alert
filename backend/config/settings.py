@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 THIRD_PARTY_APPS = [
     'rest_framework',
     'drf_yasg',
+    'django_celery_beat',
 ]
 LOCAL_APPS = [
     'user_alerts',
@@ -149,3 +150,4 @@ EMAIL_USE_SSL = False
 
 CELERY_BROKER_URL = "redis://redis:6379"
 CELERY_RESULT_BACKEND = "redis://redis:6379"
+CELERY_TIMEZONE = 'Asia/Turkey'
