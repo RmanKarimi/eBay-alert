@@ -37,9 +37,7 @@ class Alert(Task):
 
     # @shared_task
     def run(self):
-        print('>>>>>>>>>    Hello there! <<<<<<<<<<<<<<< ')
-        # self.insert_items()
-        print("\n _________period_____________  ", self.alerts.period, '\n')
+        self.insert_items()
         plaintext = get_template('email.txt')
         htmly = get_template('email.html')
 
