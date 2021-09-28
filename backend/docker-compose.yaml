@@ -6,17 +6,29 @@ services:
   web:
     restart: always
     depends_on:
-      - "postgres"
-      - "redis"
+      - postgres
+      - redis
     command: ["postgres:5435", "--", "python", "app.py" ]
   redis:
     image: redis
   celery:
     restart: always
-    command: celery -A config.celery.app worker -l info
+    command: celery -A config worker -l info
+    environment:
+      - DEBUG=1
     env_file:
       - .env
     depends_on:
       - postgres
       - redis
-      - web
+  celery-beat:
+    command: celery -A config beat -l info
+    volumes:
+      - ./app/:/usr/src/app/
+    environment:
+      - DEBUG=1
+    env_file:
+      - ./.env
+    depends_on:
+      - postgres
+      - redis

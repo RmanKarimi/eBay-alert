@@ -25,10 +25,13 @@ services:
     ports:
       - "6379:6379"
   celery:
-    build:
-      context: .
+    build: ""
     volumes:
       - .:/code/
+  celery-beat:
+    build: ""
+    volumes:
+       - .:/code/
 
 volumes:
   ebay_alert_db:

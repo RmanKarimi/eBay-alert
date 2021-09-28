@@ -3,8 +3,12 @@ from django.template.loader import get_template
 
 from user_alerts.models import UserAlerts, EbayItems
 from utils.ebay import Ebay
+from celery import shared_task
+from config.celery import app, update_alert
+from celery.schedules import crontab
+from celery import Task
 
-class Alert:
+class Alert(Task):
     def __init__(self, alert_id):
         self.alert_id = alert_id
         self.alerts = UserAlerts.objects.get(id=self.alert_id)
@@ -31,8 +35,10 @@ class Alert:
                     card_item.currency = single_item['price']['currency']
                     card_item.save()
 
-    def send_email(self):
-        self.insert_items()
+    # @shared_task
+    def run(self):
+        print('>>>>>>>>>    Hello there! <<<<<<<<<<<<<<< ')
+        # self.insert_items()
         print("\n _________period_____________  ", self.alerts.period, '\n')
         plaintext = get_template('email.txt')
         htmly = get_template('email.html')
@@ -48,5 +54,18 @@ class Alert:
         msg.send()
 
 
-def test():
-    print('______________________________________')
+
+# @shared_task
+def create_alert(alert_id):
+    AlertTask = app.register_task(
+        Alert(
+            alert_id=alert_id,
+        )
+    )
+    update_alert()
+    # app.conf.beat_schedule = {
+    #     "hello world": {
+    #         "task": "user_alerts.tasks.create_alert",
+    #         "schedule": crontab(),
+    #     },
+    # }

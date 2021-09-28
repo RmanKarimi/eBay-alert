@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 import environ
+from celery.schedules import crontab
+
 
 env = environ.Env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -150,4 +152,13 @@ EMAIL_USE_SSL = False
 
 CELERY_BROKER_URL = "redis://redis:6379"
 CELERY_RESULT_BACKEND = "redis://redis:6379"
-CELERY_TIMEZONE = 'Asia/Turkey'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
+# CELERY_BEAT_SCHEDULE = {
+#     'hello': {
+#         'task': 'user_alerts.tasks.hello',
+#         'schedule': crontab()  # execute every minute
+#     }
+# }
